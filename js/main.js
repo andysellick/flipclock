@@ -1,3 +1,24 @@
+/*
+	Objective
+
+	Clock
+	- count up
+	- count down
+		- define units 
+			e.g. full year, month, day, hour, minute, second
+			or just one or two of those
+	- actual clock
+		- just hours, minutes, seconds
+
+	General flip
+	- count up
+	- count down
+		- single number or set of numbers e.g. pounds and pence
+
+	as plugin, ideally
+*/
+
+
 //timestamp shim for cross browser compatibility
 if(!Date.now){
     Date.now = function() { return new Date().getTime(); }
@@ -112,82 +133,7 @@ var lenny = {
             }
             lenny.general.backupTime();
         }
-    },
-    timeline: {
-        //initialises a couple of variables that are useful for mobile/desktop
-        setup: function(){
-            lenny.$tl = $('#timelinecontent');
-            lenny.tlmarginleft = parseInt(lenny.$tl.css('margin-left'));
-        },
-        //initialises a couple of variables that are useful for mobile/desktop
-        resize: function(){
-            lenny.tlmarginleft = parseInt(lenny.$tl.css('margin-left'));
-            lenny.tloffset = Math.abs(parseInt(lenny.$tl.find('.tlitem').css('margin-left')));
-            lenny.tlselected = lenny.tlitemcount;
-        },
-        //do the timeline
-        createTimeline: function(){
-            var origin = Date.parse(orig);
-            lenny.tllength = Date.now() - origin; //base the length of the timeline on the time difference
-            lenny.tllength = lenny.timeline.rescaleTimeline(lenny.tllength);
-            lenny.timeline.setTimeLinePos(lenny.tllength - ($(window).outerWidth() / 1.5) + lenny.tlmarginleft); //timeline has a margin left of 500px, need to include this
-            lenny.$tl.css('width', lenny.tllength + 'px');
-
-            $.ajax({
-                url:'data/'
-            }).done(function(data){
-                data = $.parseJSON(data);
-
-                for(var i = 0; i < data.length; i++){
-                    var date = new Date(data[i]['date']);
-                    var pos = Date.parse(date) - origin;
-                    pos = lenny.timeline.rescaleTimeline(pos);
-                    pos = (pos / lenny.tllength) * 100;
-                    if(pos <= 100){ //only show items from the past
-                        var humandate = data[i]['date'];
-                        humandate = humandate.split(' ');
-                        humandate = humandate[0] + ' ' + humandate[1] + ', ' + humandate[4];
-                        var classification = data[i]['type']
-                        var html = '<div class="date">' + humandate + '</div><div class="content"><h2>' + data[i]['title'] + '</h2>' + data[i]['content'] + '</div>';
-                        $('<div/>').addClass('tlitem type-' + classification).css('left',pos + '%').html(html).appendTo(lenny.$tl);
-                    }
-                }
-                lenny.tlitemcount = lenny.$tl.find('.tlitem').length;
-                lenny.tlselected = lenny.tlitemcount;
-
-                lenny.timeline.resize();
-            });
-
-/*
-            for(var i = 0; i < timeline.length; i++){
-                var date = new Date(timeline[i]['date']);
-                var pos = Date.parse(date) - origin;
-                pos = lenny.timeline.rescaleTimeline(pos);
-                pos = (pos / lenny.tllength) * 100;
-                if(pos <= 100){ //only show items from the past
-                    var humandate = timeline[i]['date'];
-                    humandate = humandate.split(' ');
-                    humandate = humandate[0] + ' ' + humandate[1] + ', ' + humandate[4];
-                    var classification = timeline[i]['type']
-                    var html = '<div class="date">' + humandate + '</div><div class="content"><h2>' + timeline[i]['title'] + '</h2>' + timeline[i]['content'] + '</div>';
-                    $('<div/>').addClass('tlitem type-' + classification).css('left',pos + '%').html(html).appendTo(lenny.$tl);
-                }
-            }
-*/
-        },
-        setTimeLinePos: function(position){
-            //this code positions the 'view' to the far right of the timeline
-            //due to a quirk of how the plugin works, this only works on elements that are floated left. It won't work on absolutely positioned elements or elements with an offset using a margin
-            //SO! to position the viewport we have two DIVs in the markup with zero height and floated left. The first is given the width of how far along the view we want to start at,
-            //and the second is the startAtElementId element used to initialise the plugin below. A bit hacky but it's the only way I can get it to work and still allow the user to scroll back in time
-            $('#buffer').css('width',position);
-        },
-        //adjusts numbers to provide a more sensible scale for the timeline
-        rescaleTimeline: function(num){
-            return(Math.floor((num / 10000000) / 2));
-        }
     }
-
 };
 window.lenny = lenny;
 })(window);
@@ -229,165 +175,5 @@ $(function() {
         },0);
     });
     
-    lenny.timeline.setup();
-    lenny.timeline.createTimeline();
-
-    //initiate smooth scroller plugin for mouse/touch
-    $("#timeline").smoothTouchScroll({
-        startAtElementId:'starthere'
-    });
-
-    $('html').on('click',function(){
-        $('.tlitem').removeClass('active');
-        lenny.$tl.css('margin-bottom','100px'); //slightly cheating trick to get around the need for overflow:hidden on the timeline
-    });
-
-    //$('.tlitem').on('click',function(e){
-    $("#timeline").on('click','.tlitem',function(e){
-        e.stopPropagation();
-        $('.tlitem').removeClass('active');
-        $(this).addClass('active');
-        lenny.tlselected = $(this).index();
-        var h = $(this).find('.content').outerHeight() + 20; //slightly cheating trick to get around the need for overflow:hidden on the timeline
-        lenny.$tl.css('margin-bottom',h);
-        $('html,body').animate({
-            scrollTop: $('#time').outerHeight() - 60
-        }, 500);
-    });
-
-    //take the timeline right back to the beginning
-    $('#resetstart').on('click',function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        var thisone = lenny.$tl.find('.tlitem').first();
-        thisone.trigger('click');
-        var pos = thisone.position();
-        pos = pos.left - lenny.tloffset + lenny.tlmarginleft;
-        lenny.timeline.setTimeLinePos(pos);
-        $("#timeline").smoothTouchScroll();
-    });
-
-    //send the timeline right to the end
-    $('#resetnow').on('click',function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        var thisone = lenny.$tl.find('.tlitem').last();
-        thisone.trigger('click');
-        lenny.tlselected = lenny.tlitemcount;
-        var pos = thisone.position();
-        pos = pos.left - lenny.tloffset + lenny.tlmarginleft;
-        lenny.timeline.setTimeLinePos(pos);
-        $("#timeline").smoothTouchScroll();
-    });
-
-    //listener using plugin to check if timeline has been moved, if it has, reset the currently selected item
-    $('.scrollWrapper').attrchange({
-    	callback: function(e) {
-    	    if(!lenny.$tl.find('.tlitem.active').length){
-                lenny.tlselected = -1;
-            }
-    	}
-    });    
-
-    //open the previous item. Wow this got complicated
-    $('#prev').on('click',function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        if(lenny.tlselected != 0){
-            var compareto = $("#timeline").offset();
-            compareto = compareto.left;
-    
-            //if one is already open, open the previous one
-            //else if the timeline has been moved, open the previous one that is just off the screen
-            //else (if the timeline hasn't moved, we must be at the end, so open the last one)
-            var thisone = lenny.$tl.find('.tlitem.active');
-            if(thisone.length && thisone.index() > 0){
-                thisone = thisone.prev();
-            }
-            else if(lenny.tlselected != -1){
-                thisone = lenny.$tl.find('.tlitem').eq(lenny.tlselected - 1);
-            }
-            else {
-                lenny.$tl.find('.tlitem').each(function(){
-                    var thispos = $(this).offset();
-                    if(thispos.left >= compareto){
-                        if($(this).is(':first-child')){
-                            thisone = $(this);
-                        }
-                        else {
-                            thisone = $(this).prev();
-                        }
-                        return false;
-                    }
-                });
-                if(!thisone.length){
-                    thisone = lenny.$tl.find('.tlitem').last();
-                }
-            }
-            if(thisone.length){
-                var pos = thisone.offset();
-                if(pos.left < compareto){
-                    pos = thisone.position();
-                    pos = pos.left - lenny.tloffset + lenny.tlmarginleft; //timeline has a margin left of 500px, need to include this
-                    lenny.timeline.setTimeLinePos(pos);
-                }
-                $("#timeline").smoothTouchScroll();
-                thisone.trigger('click');
-            }
-        }
-    });
-
-    //open the next item
-    $('#next').on('click',function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        if(lenny.tlselected <= lenny.tlitemcount){
-            var compareto = $("#timeline").offset();
-            compareto = compareto.left + $('#timeline').outerWidth();
-    
-            var thisone = lenny.$tl.find('.tlitem.active');
-            if(thisone.length && thisone.index() < lenny.tlitemcount){
-                thisone = thisone.next();
-            }
-            else if(lenny.tlselected != -1){
-                thisone = lenny.$tl.find('.tlitem').eq(lenny.tlselected);
-            }
-            else {
-                lenny.$tl.find('.tlitem').each(function(){
-                    var thispos = $(this).offset();
-                    if(thispos.left > compareto){
-                        thisone = $(this);
-                        return false;
-                    }
-                });
-                if(!thisone.length){
-                    thisone = lenny.$tl.find('.tlitem').last();
-                }
-            }
-            if(thisone.length){
-                var pos = thisone.offset();
-                if(pos.left + thisone.outerWidth() > compareto){ //fixme this needs to be a more thorough check for mobile at 320px
-                    pos = thisone.position();
-                    pos = pos.left - lenny.tloffset + lenny.tlmarginleft; //timeline has a margin left of 500px, need to include this
-                    pos = pos - ($('#timeline').outerWidth() - thisone.outerWidth());
-                    lenny.timeline.setTimeLinePos(pos);
-                }
-                $("#timeline").smoothTouchScroll();
-                thisone.trigger('click');
-            }
-        }
-    });
-
-    var resize;
-
-    //if the screen is resized basically reset the timeline
-    $(window).on('resize',function(){
-        clearTimeout(resize); //don't resize immediately
-        resize = setTimeout(function(){
-            lenny.timeline.resize();
-            lenny.timeline.setTimeLinePos(lenny.tllength - ($(window).outerWidth() / 1.5) + lenny.tlmarginleft); //timeline has a margin left of 500px, need to include this
-            $("#timeline").smoothTouchScroll();
-        },500);
-    });
 
 });
