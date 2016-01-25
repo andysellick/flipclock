@@ -57,11 +57,6 @@ var timer;
 (function( window, undefined ) {
 var lenny = {
     $tl: 0, //the timeline element
-    tllength: 0,
-    tlmarginleft: 0,
-    tloffset: 0,
-    tlitemcount: 0,
-    tlselected: 0,
 
     general: {
         //store time for comparison next time round, since it's an object can't do a direct copy

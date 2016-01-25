@@ -55,8 +55,8 @@
 
             .digits {
                 position:relative;
-                padding:10px 0;
-                width:1.5em;
+                padding:10px 0.2em;
+                //width:1.5em;
 
                 &:before { /* this is the top half of the number and contains the current number. It begins visible, then flips down */
                     display:none;
@@ -71,7 +71,8 @@
                     .border-box();
                     .border-radius( @corner @corner 0 0 );
                     overflow:hidden;
-                    .vertical-gradient( #d3d3d3, 0%, #d0d0d0, 100% );
+                    //.vertical-gradient( #d3d3d3, 0%, #d0d0d0, 100% );
+                    background:#d3d3d3; /* can't animate a gradient */
                     border-top:solid 1px #787878;
                     text-shadow:0px 2px 1px #ffffff;
                 }
@@ -134,19 +135,19 @@
                         display:block;
                         .transform( perspective(300px) rotateX(0deg) );
                         .transform-point( 50% 100% );
-                        -webkit-animation: anim1 @time linear infinite; /* Safari 4+ */
-                        -moz-animation:    anim1 @time linear infinite; /* Fx 5+ */
-                        -o-animation:      anim1 @time linear infinite; /* Opera 12+ */
-                        animation:         anim1 @time linear infinite; /* IE 10+, Fx 29+ */
+                        -webkit-animation: anim1 @time linear forwards; /* Safari 4+ */
+                        -moz-animation:    anim1 @time linear forwards; /* Fx 5+ */
+                        -o-animation:      anim1 @time linear forwards; /* Opera 12+ */
+                        animation:         anim1 @time linear forwards; /* IE 10+, Fx 29+ */
                     }
                     &:after { /* this is the bottom half of the new number and begins obscured, flipping over to reveal its contents */
                         display:block;
                         .transform( perspective(300px) scaleX(-1) rotate(180deg) rotateX(90deg) );
                         .transform-point( 50% 0% );
-                        -webkit-animation: anim2 @time linear infinite; /* Safari 4+ */
-                        -moz-animation:    anim2 @time linear infinite; /* Fx 5+ */
-                        -o-animation:      anim2 @time linear infinite; /* Opera 12+ */
-                        animation:         anim2 @time linear infinite; /* IE 10+, Fx 29+ */
+                        -webkit-animation: anim2 @time linear forwards; /* Safari 4+ */
+                        -moz-animation:    anim2 @time linear forwards; /* Fx 5+ */
+                        -o-animation:      anim2 @time linear forwards; /* Opera 12+ */
+                        animation:         anim2 @time linear forwards; /* IE 10+, Fx 29+ */
                     }
 
                     .next { /* this element appears as the top half of the number and contains the next number. It begins obscured */
@@ -190,6 +191,7 @@
         }
         50% {
             .transform( perspective(300px) rotateX(-180deg) translateY(0px) );
+			background:#000; /* can't animate a gradient */
         }
         99% {
             border:0;
