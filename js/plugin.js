@@ -4,8 +4,8 @@
 	var Plugin = function(elem,options){
 		this.elem = elem;
 		this.$elem = $(elem);
-		this.options = options
-	}
+		this.options = options;
+	};
 
 	Plugin.prototype = {
 		init: function(){
@@ -69,7 +69,7 @@
 						var len = '' + num;
 						return(len.length);
 					},
-					
+
 					changeNumbers: function(){
 						//take current number
 						var currNum = obj.currNum;
@@ -101,7 +101,7 @@
 							i++;
 						});
 					},
-					
+
 					//http://stackoverflow.com/questions/10073699/pad-a-number-with-leading-zeros-in-javascript
 					padDigits: function(number, digits) {
 						return Array(Math.max(digits - String(number).length + 1, 0)).join(0) + number;
@@ -133,7 +133,7 @@
 						unit.appendTo(obj.$elem);
 					}
 				},
-            }
+            };
 
             $(window).on('load',function(){
                 functions.general.overrideSettings();
@@ -148,11 +148,11 @@
                 resize = setTimeout(functions.general.resizeWindow,200);
         	});
 		}
-	}
+	};
 	$.fn.flipclock = function(options){
 		return this.each(function(){
 			new Plugin(this,options).init();
 		});
-	}
+	};
 	window.Plugin = Plugin;
 })(window,jQuery);
