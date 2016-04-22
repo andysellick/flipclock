@@ -62,15 +62,11 @@
 						}
 			            functions.general.backupTime();
 						if(!obj.settings.stopAtZero){
-							//create the timekeeping element
-							obj.trigger = $('<div/>').addClass('trigger').attr('data-id','trigger').appendTo(obj.$elem);
-							//start the counter
 							functions.general.initCounter();
 						}
 						else {
-							functions.general.showDigit('second');
+							functions.markup.showDigit('second');
 						}
-
 						if(obj.settings.showAllDigits){
 							obj.$elem.find('.timeunit').addClass('shown'); //show all time elements
 						}
@@ -106,6 +102,7 @@
 
 					//set up the counter element and its CSS transition trigger to call the time update
 					initCounter: function(){
+						obj.trigger = $('<div/>').addClass('trigger').attr('data-id','trigger').appendTo(obj.$elem); //create the timekeeping element
 					    var wait = 1;
 					    //in theory if we start on an exact second the js should be in sync with the css animation. In theory.
 					    setTimeout(function(){
@@ -160,15 +157,15 @@
 							functions.general.updateDigit(obj.units[u]);
 							//show or hide the digit if it is zero and it was last time, unless it's seconds, in which case we always show it
 							if(ok){ //fixme should be better way of structuring this
-								functions.general.showDigit(obj.units[u]);
+								functions.markup.showDigit(obj.units[u]);
 							}
 							else {
 								if(obj.time[obj.units[u]] === 0 && obj.prevtime[obj.units[u]] === 0 && obj.units[u] !== 'second'){
-									functions.general.hideDigit(obj.units[u]);
+									functions.markup.hideDigit(obj.units[u]);
 								}
 								else {
 									ok = 1;
-									functions.general.showDigit(obj.units[u]);
+									functions.markup.showDigit(obj.units[u]);
 								}
 							}
 						}
@@ -207,19 +204,7 @@
 	                        digits.attr('class','digits');
 	                    }					
 					},
-					
-					//show a particular time unit
-					showDigit: function(key){
-						obj.$elem.find('.timeunit[data-name=' + key + ']').addClass('shown');
-					},
 
-					//hide a particular time unit
-					hideDigit: function(key){
-						if(!obj.settings.showAllDigits){
-							obj.$elem.find('.timeunit[data-name=' + key + ']').removeClass('shown');
-						}
-					},
-					
 			        //store time for comparison next time round, since it's an object can't do a direct copy
 			        backupTime: function(){
 			            for(var y in obj.time){
@@ -253,7 +238,18 @@
 							$('<div/>').addClass('units').html(attr).appendTo(unit);
 						}
 						unit.appendTo(obj.$elem);
-					}
+					},
+					//show a particular time unit
+					showDigit: function(key){
+						obj.$elem.find('.timeunit[data-name=' + key + ']').addClass('shown');
+					},
+
+					//hide a particular time unit
+					hideDigit: function(key){
+						if(!obj.settings.showAllDigits){
+							obj.$elem.find('.timeunit[data-name=' + key + ']').removeClass('shown');
+						}
+					},
 				},
             };
 
