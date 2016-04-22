@@ -21,8 +21,6 @@
 </head>
 
 <body>
-    <main class="main">
-        <div class="container align-center">
             <div id="time" class="timewrap">
                 <div class="timeunit" data-name="year"> <!-- data-next attribute contains the current number plus 1 -->
                     <div class="digit">
@@ -76,21 +74,10 @@
             <div id="trigger" class="trigger"></div>
         </div>
         
-        <div id="flipclock"></div>
+	<div id="flipclock"></div>
+    <div id="flipclock2"></div>
+    <div id="flipclock3"></div>
 
-		<p class="align-center">
-	        <button id="increment">+</button>
-	        <button id="decrement">-</button>
-	    </p>
-	    
-	    <div id="flipclock2"></div>
-	    <div id="flipclock3"></div>
-
-    </main>
-
-    <div class="nojswarn align-center">
-        <span class="faux_h3">This site requires JavaScript. You do not have JavaScript enabled. You have to turn it on to make this site work. Otherwise it won't work. Because it needs JavaScript.</span>
-    </div>
 
     <script src="js/vendor/jquery-1.10.2.min.js"></script>
     <script src="js/vendor/moment.min.js"></script>
@@ -100,15 +87,18 @@
     
     <script>
     	$(document).ready(function(){
-    	/*
+
     		$('#flipclock').flipclock();
+
     		$('#flipclock2').flipclock({
-    			targetDate: [1901,5,14,0,30,07]
+    			mode: 'clock'
 			});
-		*/
+
     		$('#flipclock3').flipclock({
-    			targetDate: [2016,4,21,15,59,0]
+    			targetDate: [2016,4,22,11,16,0],
+    			showUnits: true
 			});
+
     	});
     </script>
 
