@@ -23,7 +23,7 @@
 				mode: 'counter', //determines the behaviour of the flipclock: counter simply counts the time since/til targetDate
 				showUnits: true, //controls display name of units beneath digits
 				showAllDigits: false, //if true, show all digits regardless, if false, only show from the 1st digit that is 1 or higher
-				targetDate: [2016,1,1,0,0,0],
+				targetDate: [2000,1,1,0,0,0],
 				stopAtZero: false
 			}, this.defaults, this.options);
 
