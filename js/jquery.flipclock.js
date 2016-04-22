@@ -1,4 +1,5 @@
 /*
+	jQuery flip clock plugin - for details see https://github.com/andysellick/flipclock
 */
 (function (window,$) {
 	var Plugin = function(elem,options){
@@ -22,7 +23,7 @@
 				mode: 'counter', //determines the behaviour of the flipclock: counter simply counts the time since/til targetDate
 				showUnits: true, //controls display name of units beneath digits
 				showAllDigits: false, //if true, show all digits regardless, if false, only show from the 1st digit that is 1 or higher
-				targetDate: [2016,1,1,0,0,0], //fixme number of months seems to be off by 1 - is this the zero-indexed month problem?
+				targetDate: [2016,1,1,0,0,0],
 				stopAtZero: false
 			}, this.defaults, this.options);
 
@@ -44,7 +45,7 @@
 						obj.$elem.html('').addClass('timewrap');
 						var showdigits = 1;
 						
-						if(obj.settings.mode == 'clock'){
+						if(obj.settings.mode === 'clock'){
 							//cheat a bit - set the targetDate to an arbitrary midnight, then only show the hours, minutes and seconds
 							obj.settings.targetDate = [2000,1,1,0,0,0,0];
 							var date = new Date;
