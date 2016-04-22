@@ -1,106 +1,42 @@
 <!DOCTYPE html>
 <html lang="en" id="site" class="nojs">
 <head>
-<!--[if lt IE 9]>
-    <script src="static/js/vendor/html5shiv.js"></script>
-<![endif]-->
-
     <title>Flipclock</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1.0">
 
     <link rel="stylesheet" type="text/css" href="css/styles.css"/>
     <link rel="stylesheet" media="screen and (min-width:0) and (max-width:767px)" href="css/styles-responsive.css"/>
-    <!--[if lt IE 8 ]>
-        <link rel="stylesheet" type="text/css" href="css/styles-responsive.css"/>
-    <![endif]-->
-    <script>
-        /* we want to remove the nojs class as soon as possible on page load */
-        document.getElementById("site").className = document.getElementById("site").className.replace(/nojs/i,'');
-    </script>
 </head>
 
 <body>
-            <div id="time" class="timewrap">
-                <div class="timeunit" data-name="year"> <!-- data-next attribute contains the current number plus 1 -->
-                    <div class="digit">
-                        <div class="digits">
-                            <span class="number"></span> <!-- contains the current number -->
-                        </div>
-                    </div>
-                    <div class="units"></div>
-                </div>
-                <div class="timeunit" data-name="month">
-                    <div class="digit">
-                        <div class="digits">
-                            <span class="number"></span>
-                        </div>
-                    </div>
-                    <div class="units"></div>
-                </div>
-                <div class="timeunit" data-name="day">
-                    <div class="digit">
-                        <div class="digits">
-                            <span class="number"></span>
-                        </div>
-                    </div>
-                    <div class="units"></div>
-                </div>
-                <div class="timeunit" data-name="hour">
-                    <div class="digit">
-                        <div class="digits">
-                            <span class="number"></span>
-                        </div>
-                    </div>
-                    <div class="units"></div>
-                </div>
-                <div class="timeunit" data-name="minute">
-                    <div class="digit">
-                        <div class="digits">
-                            <span class="number"></span>
-                        </div>
-                    </div>
-                    <div class="units"></div>
-                </div>
-                <div class="timeunit" data-name="second">
-                    <div class="digit">
-                        <div class="digits">
-                            <span class="number"></span>
-                        </div>
-                    </div>
-                    <div class="units"></div>
-                </div>
-            </div>
-            <div id="trigger" class="trigger"></div>
-        </div>
-        
 	<div id="flipclock"></div>
     <div id="flipclock2"></div>
     <div id="flipclock3"></div>
-
 
     <script src="js/vendor/jquery-1.10.2.min.js"></script>
     <script src="js/vendor/moment.min.js"></script>
     <script src="js/vendor/readable-range.js"></script>
     <!-- <script src="js/main.js"></script> -->
     <script src="js/plugin.js"></script>
-    
+
     <script>
     	$(document).ready(function(){
 
     		$('#flipclock').flipclock();
 
     		$('#flipclock2').flipclock({
-    			mode: 'clock'
+    			mode: 'clock',
+    			showUnits: false
 			});
 
     		$('#flipclock3').flipclock({
-    			targetDate: [2016,4,22,11,16,0],
-    			showUnits: true
+    			targetDate: [2016,4,22,14,48],
+    			stopAtZero: true,
+    			showAllDigits: true
 			});
 
     	});
     </script>
-
 </body>
 </html>
