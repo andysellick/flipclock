@@ -44,8 +44,7 @@
 						if(obj.settings.timeZoneOffset !== -1){
 							var offset = new Date();
 							offset = offset.getTimezoneOffset();
-							obj.timeZoneOffset = (offset / 60) + obj.settings.timeZoneOffset;
-							//console.log('Time zone offset is',obj.timeZoneOffset);
+							obj.timeZoneOffset = ((offset / 60) + obj.settings.timeZoneOffset) * 3600000;
 						}
                     },
                     //insert all required markup
@@ -86,11 +85,9 @@
 					getTimeNowTarget: function(){
 			            functions.general.backupTime();
 			            functions.general.resetTime();						
-			            var now = Date.now() + (obj.timeZoneOffset * 3600000);
-						//var now = Date.now() + 100000000;
+			            var now = Date.now() + obj.timeZoneOffset;
 			            var output = moment.preciseDiff(now, obj.settings.targetDate);
 			            output = output.split(" ");
-						//console.log(output,now, Date.now(), obj.timeZoneOffset);
 
 		                if(output.length > 1){
 							obj.endofdays = 0;
