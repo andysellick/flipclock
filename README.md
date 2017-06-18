@@ -15,9 +15,9 @@ Usage
 <script src="js/jquery.flipclock.js"></script>
 
 <script>
-	$(document).ready(function(){
-		$('#example').flipclock();
-	});
+  $(document).ready(function(){
+    $('#example').flipclock();
+  });
 </script>
 ```
 
@@ -29,4 +29,6 @@ Options
 - **showUnits**: set to true or false, defaults to true. Shows the type of unit beneath each digit of the clock.
 - **showAllDigits**: set to true or false, defaults to false. If false, only shows digits from the first non-zero digit. Ignored in clock mode.
 - **stopAtZero**: set to true or false, defaults to false. In counter mode, if targetDate is in the future, if this is set to true when it reaches that time the clock will stop. Otherwise it will begin counting upwards again. Ignored in clock mode.
+- **timeZoneOffset**: used to set timezone for more accurate timings, e.g. set to 0 for GMT, then clock/countdown/countup will be relative to GMT, not the timezone on the computer currently viewing the flipclock. Defaults to -1 (off) so times will be shown relative to current computer timezone.
 
+With no options set, flipclock will display the time since the start of the year 2000 according to the current device's timezone.

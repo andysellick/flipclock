@@ -18,13 +18,15 @@
 			obj.timer = 0;
 			obj.trigger = 0;
 			obj.endofdays = 0; //handles the special case when a countdown becomes a countup
+			obj.timeZoneOffset = 0;
 
 			this.settings = $.extend({
 				mode: 'counter', //determines the behaviour of the flipclock: counter simply counts the time since/til targetDate
 				showUnits: true, //controls display name of units beneath digits
 				showAllDigits: false, //if true, show all digits regardless, if false, only show from the 1st digit that is 1 or higher
 				targetDate: [2000,1,1,0,0,0],
-				stopAtZero: false
+				stopAtZero: false,
+				timeZoneOffset: -1 //controls time zone. If set, all times are set to GMT plus that amount, if -1, set to your current timezone
 			}, this.defaults, this.options);
 
 			var functions = {
@@ -39,6 +41,12 @@
 						}
 						var d = obj.settings.targetDate;
 						obj.settings.targetDate = new Date(d[0],d[1] - 1,d[2],d[3],d[4],d[5]); //second parameter, month, is zero indexed, so we have to subtract 1 to get the right month
+						if(obj.settings.timeZoneOffset !== -1){
+							var offset = new Date();
+							offset = offset.getTimezoneOffset();
+							obj.timeZoneOffset = (offset / 60) + obj.settings.timeZoneOffset;
+							//console.log('Time zone offset is',obj.timeZoneOffset);
+						}
                     },
                     //insert all required markup
 					initElements: function(){
@@ -51,7 +59,8 @@
 							var date = new Date;
 							obj.time.second = date.getSeconds();
 							obj.time.minute = date.getMinutes();
-							obj.time.hour = date.getHours();
+							obj.time.hour = date.getHours() + obj.timeZoneOffset;
+							//console.log('initial hours are', date.getHours(), obj.time.hour);
 							showdigits = Math.floor(obj.units.length / 2 - 1);
 						}
 						else {
@@ -76,10 +85,12 @@
 					//get the difference between the time now and the time target
 					getTimeNowTarget: function(){
 			            functions.general.backupTime();
-			            functions.general.resetTime();
-			            var now = Date.now();
+			            functions.general.resetTime();						
+			            var now = Date.now() + (obj.timeZoneOffset * 3600000);
+						//var now = Date.now() + 100000000;
 			            var output = moment.preciseDiff(now, obj.settings.targetDate);
 			            output = output.split(" ");
+						//console.log(output,now, Date.now(), obj.timeZoneOffset);
 
 		                if(output.length > 1){
 							obj.endofdays = 0;
@@ -133,7 +144,7 @@
 						}
 						obj.transitionEvent = whichTransitionEvent();
 
-					    //since CSS animation and JS timing of 1 second seems to differ, we trigger the next loop of the JS after a trigger element's transition is complete
+					    //since CSS animation and JS timing of 1 second differs, we trigger next loop of JS after a trigger element's transition is complete
 						obj.trigger.on(obj.transitionEvent,function(event) {
 					        // Do something when the transition ends
 					        clearTimeout(obj.timer);
@@ -151,7 +162,7 @@
 
 					//called continually to update the display
 					doCounter: function(){
-			            var output = functions.general.getTimeNowTarget();
+			            functions.general.getTimeNowTarget();
 			            var ok = 0;
 
 			            for(var u = obj.units.length - 1; u >= 0 ; u--){

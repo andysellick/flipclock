@@ -17,7 +17,7 @@
     <script src="js/vendor/jquery-1.10.2.min.js"></script>
     <script src="js/vendor/moment.min.js"></script>
     <script src="js/vendor/readable-range.js"></script>
-    <script src="js/jquery.flipclock.min.js"></script>
+    <script src="js/jquery.flipclock.js"></script>
 
     <script>
     	$(document).ready(function(){
@@ -25,12 +25,14 @@
 
     		$('#flipclock2').flipclock({
     			mode: 'clock',
-    			showUnits: false
+    			showUnits: false,
+				timeZoneOffset: 1
 			});
 
     		$('#flipclock3').flipclock({
     			targetDate: [2018,1,1,0,0],
-    			showAllDigits: true
+    			showAllDigits: true,
+				timeZoneOffset: 1
 			});
 
     	});
