@@ -1,41 +1,40 @@
 <!DOCTYPE html>
 <html lang="en" id="site" class="nojs">
 <head>
-    <title>Flipclock</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1.0">
+  <title>Flipclock</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1.0">
 
-    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
-    <link rel="stylesheet" type="text/css" href="css/flipclock.css"/>
+  <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+  <link rel="stylesheet" type="text/css" href="css/flipclock.css"/>
 </head>
 
 <body>
-	<div id="flipclock"></div>
-    <div id="flipclock2"></div>
-    <div id="flipclock3"></div>
+  <div id="flipclock"></div>
+  <div id="flipclock2"></div>
+  <div id="flipclock3"></div>
 
-    <script src="js/vendor/jquery-1.10.2.min.js"></script>
-    <script src="js/vendor/moment.min.js"></script>
-    <script src="js/vendor/readable-range.js"></script>
-    <script src="js/jquery.flipclock.js"></script>
+  <script src="js/vendor/jquery-1.10.2.min.js"></script>
+  <script src="js/vendor/moment.min.js"></script>
+  <script src="js/vendor/readable-range.js"></script>
+  <script src="js/jquery.flipclock.js"></script>
 
-    <script>
-    	$(document).ready(function(){
-    		$('#flipclock').flipclock();
+  <script>
+    $(document).ready(function(){
+      $('#flipclock').flipclock();
 
-    		$('#flipclock2').flipclock({
-    			mode: 'clock',
-    			showUnits: false,
-				timeZoneOffset: 1
-			});
+      $('#flipclock2').flipclock({
+        mode: 'clock',
+        showUnits: false,
+        timeZoneOffset: 1
+      });
 
-    		$('#flipclock3').flipclock({
-    			targetDate: [2018,1,1,0,0],
-    			showAllDigits: true,
-				timeZoneOffset: 1
-			});
-
-    	});
-    </script>
+      $('#flipclock3').flipclock({
+        targetDate: [2018,1,1,0,0],
+        showAllDigits: true,
+        timeZoneOffset: 1
+      });
+    });
+  </script>
 </body>
 </html>

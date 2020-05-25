@@ -1,84 +1,83 @@
-/* --mixins */
-	/* border radius */
-	.border-radius(@radius: 0.3em) {
-		-webkit-border-radius: @radius;
-		-moz-border-radius   : @radius;
-		border-radius        : @radius;
-	}
+/* border radius */
+.border-radius(@radius: 0.3em) {
+	-webkit-border-radius: @radius;
+	-moz-border-radius   : @radius;
+	border-radius        : @radius;
+}
 
-    /* --gradients */
-    	/* vertical, two colour */
-    	.vertical-gradient( @startcolor, @startpoint, @endcolor, @endpoint ) {
-    		background: @endcolor;
-    		background: -webkit-gradient(linear, left top, left bottom, color-stop(@startpoint, @startcolor), color-stop(@endpoint,@endcolor)); /* Chrome,Safari4+ */
-    		background: -moz-linear-gradient(top, @startcolor @startpoint, @endcolor @endpoint); /* FF3.6+ */
-    		background: -o-gradient(top, @startcolor @startpoint, @endcolor @endpoint); /* Opera 11.10+ */
-    		background: -ms-linear-gradient(top, @startcolor @startpoint, @endcolor @endpoint); /* IE10+ */
-    		background: linear-gradient(top, @startcolor @startpoint, @endcolor @endpoint);
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=@startcolor, endColorstr=@endcolor,GradientType=0 ); /* IE6-9 */
-    	}
-        /* vertical, four colours */
-    	.vertical-multi-gradient( @color1, @pos1, @color2, @pos2, @color3, @pos3, @color4, @pos4 ){
-    		background: @pos4;
-            background-image: -webkit-linear-gradient(top, @color1 @pos1, @color2 @pos2, @color3 @pos3, @color4 @pos4);
-            background-image: -moz-linear-gradient(top, @color1 @pos1, @color2 @pos2, @color3 @pos3, @color4 @pos4);
-            background-image: -o-linear-gradient(top, @color1 @pos1, @color2 @pos2, @color3 @pos3, @color4 @pos4);
-            background-image: -ms-linear-gradient(top, @color1 @pos1, @color2 @pos2, @color3 @pos3, @color4 @pos4);
-            background-image: linear-gradient(top, @color1 @pos1, @color2 @pos2, @color3 @pos3, @color4 @pos4);
-        }
+/* --gradients */
+/* vertical, two colour */
+.vertical-gradient( @startcolor, @startpoint, @endcolor, @endpoint ) {
+	background: @endcolor;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(@startpoint, @startcolor), color-stop(@endpoint,@endcolor)); /* Chrome,Safari4+ */
+	background: -moz-linear-gradient(top, @startcolor @startpoint, @endcolor @endpoint); /* FF3.6+ */
+	background: -o-gradient(top, @startcolor @startpoint, @endcolor @endpoint); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, @startcolor @startpoint, @endcolor @endpoint); /* IE10+ */
+	background: linear-gradient(top, @startcolor @startpoint, @endcolor @endpoint);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=@startcolor, endColorstr=@endcolor,GradientType=0 ); /* IE6-9 */
+}
+/* vertical, four colours */
+.vertical-multi-gradient( @color1, @pos1, @color2, @pos2, @color3, @pos3, @color4, @pos4 ){
+	background: @pos4;
+	background-image: -webkit-linear-gradient(top, @color1 @pos1, @color2 @pos2, @color3 @pos3, @color4 @pos4);
+	background-image: -moz-linear-gradient(top, @color1 @pos1, @color2 @pos2, @color3 @pos3, @color4 @pos4);
+	background-image: -o-linear-gradient(top, @color1 @pos1, @color2 @pos2, @color3 @pos3, @color4 @pos4);
+	background-image: -ms-linear-gradient(top, @color1 @pos1, @color2 @pos2, @color3 @pos3, @color4 @pos4);
+	background-image: linear-gradient(top, @color1 @pos1, @color2 @pos2, @color3 @pos3, @color4 @pos4);
+}
 
-	/* shadow */
-	/* usage: .box-shadow( ~"0 1px 0 red, 0 -1px 0 green" ); */
-	.box-shadow( @shadow ) {
-		-webkit-box-shadow: @shadow;
-		box-shadow        : @shadow;
-	}
+/* shadow */
+/* usage: .box-shadow( ~"0 1px 0 red, 0 -1px 0 green" ); */
+.box-shadow( @shadow ) {
+	-webkit-box-shadow: @shadow;
+	box-shadow        : @shadow;
+}
 
-	/* --transforms */
-    	.transform ( @trans ){
-            transform: @trans;
-            -ms-transform: @trans;
-            -moz-tranform: @trans;
-            -webkit-transform: @trans;
-            -o-transform: @trans;
-        }
-    
-    	.transform-point ( @trans ) {
-            transform-origin: @trans;
-            -ms-transform-origin: @trans;
-            -moz-transform-origin: @trans;
-            -o-transform-origin: @trans;
-            -webkit-transform-origin: @trans;
-        }
+/* --transforms */
+.transform ( @trans ){
+	transform: @trans;
+	-ms-transform: @trans;
+	-moz-tranform: @trans;
+	-webkit-transform: @trans;
+	-o-transform: @trans;
+}
 
-	/* usage: .transition( ~"transition, another transition" ); */
-    .transition( @trans ){
-        transition: @trans;
-        -moz-transition: @trans;
-        -webkit-transition: @trans;
-        -o-transition: @trans;
-    }
+.transform-point ( @trans ) {
+	transform-origin: @trans;
+	-ms-transform-origin: @trans;
+	-moz-transform-origin: @trans;
+	-o-transform-origin: @trans;
+	-webkit-transform-origin: @trans;
+}
 
-    .transparency( @trans ){
-        @mstrans: @trans * 100;
-        filter: alpha(opacity=@mstrans);
-        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity="@mstrans")"; /* IE 8 */
-        -moz-opacity: @trans; /* Netscape */
-        -khtml-opacity: @trans; /* Safari 1.x */
-        opacity: @trans; /* Good browsers */
-    }
+/* usage: .transition( ~"transition, another transition" ); */
+.transition( @trans ){
+	transition: @trans;
+	-moz-transition: @trans;
+	-webkit-transition: @trans;
+	-o-transition: @trans;
+}
 
-	/* --box sizing */
-	.border-box {
-		-moz-box-sizing   : border-box;
-		-webkit-box-sizing: border-box;
-		-ms-box-sizing    : border-box;
-		box-sizing        : border-box;
-	}
-	.content-box {
-		-moz-box-sizing   : content-box;
-		-webkit-box-sizing: content-box;
-		-ms-box-sizing    : content-box;
-		box-sizing        : content-box;
-		*behavior         : none;
-	}
+.transparency( @trans ){
+	@mstrans: @trans * 100;
+	filter: alpha(opacity=@mstrans);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity="@mstrans")"; /* IE 8 */
+	-moz-opacity: @trans; /* Netscape */
+	-khtml-opacity: @trans; /* Safari 1.x */
+	opacity: @trans; /* Good browsers */
+}
+
+/* --box sizing */
+.border-box {
+	-moz-box-sizing   : border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing    : border-box;
+	box-sizing        : border-box;
+}
+.content-box {
+	-moz-box-sizing   : content-box;
+	-webkit-box-sizing: content-box;
+	-ms-box-sizing    : content-box;
+	box-sizing        : content-box;
+	*behavior         : none;
+}
