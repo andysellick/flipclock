@@ -1,9 +1,3 @@
-/* border radius */
-.border-radius(@radius: 0.3em) {
-	-webkit-border-radius: @radius;
-	-moz-border-radius   : @radius;
-	border-radius        : @radius;
-}
 
 /* --gradients */
 /* vertical, two colour */
@@ -24,13 +18,6 @@
 	background-image: -o-linear-gradient(top, @color1 @pos1, @color2 @pos2, @color3 @pos3, @color4 @pos4);
 	background-image: -ms-linear-gradient(top, @color1 @pos1, @color2 @pos2, @color3 @pos3, @color4 @pos4);
 	background-image: linear-gradient(top, @color1 @pos1, @color2 @pos2, @color3 @pos3, @color4 @pos4);
-}
-
-/* shadow */
-/* usage: .box-shadow( ~"0 1px 0 red, 0 -1px 0 green" ); */
-.box-shadow( @shadow ) {
-	-webkit-box-shadow: @shadow;
-	box-shadow        : @shadow;
 }
 
 /* --transforms */
@@ -73,11 +60,4 @@
 	-webkit-box-sizing: border-box;
 	-ms-box-sizing    : border-box;
 	box-sizing        : border-box;
-}
-.content-box {
-	-moz-box-sizing   : content-box;
-	-webkit-box-sizing: content-box;
-	-ms-box-sizing    : content-box;
-	box-sizing        : content-box;
-	*behavior         : none;
 }
