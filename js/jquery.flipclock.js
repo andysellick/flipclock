@@ -49,7 +49,7 @@ jQuery flip clock plugin - for details see https://github.com/andysellick/flipcl
 					},
 					//insert all required markup
 					initElements: function(){
-						obj.$elem.html('').addClass('timewrap');
+						obj.$elem.html('').addClass('flipclock');
 						var showdigits = 1;
 
 						if(obj.settings.mode === 'clock'){
@@ -77,7 +77,7 @@ jQuery flip clock plugin - for details see https://github.com/andysellick/flipcl
 							functions.markup.showDigit('second');
 						}
 						if(obj.settings.showAllDigits){
-							obj.$elem.find('.timeunit').addClass('shown'); //show all time elements
+							obj.$elem.find('.flipclock__unit').addClass('flipclock__unit--visible'); //show all time elements
 						}
 					},
 
@@ -111,14 +111,14 @@ jQuery flip clock plugin - for details see https://github.com/andysellick/flipcl
 
 					//set up the counter element and its CSS transition trigger to call the time update
 					initCounter: function(){
-						obj.trigger = $('<div/>').addClass('trigger').attr('data-id','trigger').appendTo(obj.$elem); //create the timekeeping element
+						obj.trigger = $('<div/>').addClass('flipclock__trigger').attr('data-id','trigger').appendTo(obj.$elem); //create the timekeeping element
 						var wait = 1;
 						//in theory if we start on an exact second the js should be in sync with the css animation. In theory.
 						setTimeout(function(){
 							while(wait){
 								if(Date.now() % 1000 === 0){
 									wait = 0;
-									obj.trigger.addClass('active');
+									obj.trigger.addClass('flipclock__trigger--active');
 								}
 							}
 						},1);
@@ -147,11 +147,11 @@ jQuery flip clock plugin - for details see https://github.com/andysellick/flipcl
 							clearTimeout(obj.timer);
 							obj.timer = setTimeout(function(){
 								functions.general.doCounter();
-								if(obj.trigger.hasClass('active')){
-									obj.trigger.removeClass('active');
+								if(obj.trigger.hasClass('flipclock__trigger--active')){
+									obj.trigger.removeClass('flipclock__trigger--active');
 								}
 								else {
-									obj.trigger.addClass('active');
+									obj.trigger.addClass('flipclock__trigger--active');
 								}
 							},0);
 						});
@@ -192,25 +192,25 @@ jQuery flip clock plugin - for details see https://github.com/andysellick/flipcl
 						digit = functions.general.padDigits(digit, 2)
 						prevdigit = functions.general.padDigits(prevdigit, 2)
 
-						var wrapper = obj.$elem.find('.timeunit[data-name=' + key + ']'); //.attr('class','timeunit shown');//find the relevant element and set it up
-						var digits = wrapper.find('.digits').attr('data-next',digit).attr('data-now',prevdigit);
+						var wrapper = obj.$elem.find('.flipclock__unit[data-name=' + key + ']'); //find the relevant element and set it up
+						var digits = wrapper.find('.flipclock__digits').attr('data-next',digit).attr('data-now',prevdigit);
 
-						digits.find('.next').remove();
-						digits.find('.prev').remove();
-						$('<div/>').addClass('next').html(digit).appendTo(digits);
-						$('<div/>').addClass('prev').html(prevdigit).appendTo(digits);
+						digits.find('.flipclock__digits-next').remove();
+						digits.find('.flipclock__digits-prev').remove();
+						$('<div/>').addClass('flipclock__digits-next').html(digit).appendTo(digits);
+						$('<div/>').addClass('flipclock__digits-prev').html(prevdigit).appendTo(digits);
 
 						digits.find('.number').html(digit);
 
 						if(obj.settings.showUnits){
-							wrapper.find('.units').html(unit);
+							wrapper.find('.flipclock__units').html(unit);
 						}
 
 						if(obj.time[key] !== obj.prevtime[key]){ //only animate if changed
-							digits.attr('class','digits animate'); //in theory this is quicker than addClass
+							digits.attr('class','flipclock__digits flipclock__digits--animate'); //in theory this is quicker than addClass
 						}
 						else {
-							digits.attr('class','digits');
+							digits.attr('class','flipclock__digits');
 						}
 					},
 
@@ -239,24 +239,24 @@ jQuery flip clock plugin - for details see https://github.com/andysellick/flipcl
 				markup: {
 					//create the chunk of markup necessary to hold a digit
 					generateDigit: function(number,attr){
-						var unit = $('<div/>').attr('data-name',attr).addClass('timeunit');
-						var digit = $('<div/>').addClass('digit').appendTo(unit);
-						var digits = $('<div/>').addClass('digits').attr('data-now',number).appendTo(digit);
+						var unit = $('<div/>').attr('data-name',attr).addClass('flipclock__unit');
+						var digit = $('<div/>').addClass('flipclock__digit').appendTo(unit);
+						var digits = $('<div/>').addClass('flipclock__digits').attr('data-now',number).appendTo(digit);
 						$('<span/>').addClass('number').html(number).appendTo(digits);
 						if(obj.settings.showUnits){
-							$('<div/>').addClass('units').html(attr).appendTo(unit);
+							$('<div/>').addClass('flipclock__units').html(attr).appendTo(unit);
 						}
 						unit.appendTo(obj.$elem);
 					},
 					//show a particular time unit
 					showDigit: function(key){
-						obj.$elem.find('.timeunit[data-name=' + key + ']').addClass('shown');
+						obj.$elem.find('.flipclock__unit[data-name=' + key + ']').addClass('flipclock__unit--visible');
 					},
 
 					//hide a particular time unit
 					hideDigit: function(key){
 						if(!obj.settings.showAllDigits){
-							obj.$elem.find('.timeunit[data-name=' + key + ']').removeClass('shown');
+							obj.$elem.find('.flipclock__unit[data-name=' + key + ']').removeClass('flipclock__unit--visible');
 						}
 					},
 				},

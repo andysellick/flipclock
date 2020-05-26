@@ -3,160 +3,156 @@
 @time: 1s;
 @corner: 5px;
 
-.timewrap {
+.flipclock {
   text-align:center;
+}
 
-  .timeunit {
+.flipclock__unit {
+  display:none;
+  padding:10px;
+  text-align:center;
+}
+
+.flipclock__unit--visible {
+  display:inline-block;
+}
+
+.flipclock__digit {
+  position:relative;
+  margin-bottom:10px;
+  .vertical-multi-gradient( #d3d3d3, 0%, #d0d0d0, 50%, #ededed, 50%, #dadada, 100% );
+  .border-box();
+  .box-shadow( ~"0 0 0 1px rgba(255,255,255,1) inset, 0 0 0 1px #030303, 0 5px 5px rgba(0,0,0,0.7)" );
+  .border-radius( @corner );
+  border:solid 1px #787878;
+  border-top:solid 2px #787878;
+  border-bottom:solid 2px #787878;
+  text-shadow:0px 2px 1px #ffffff;
+  font-size:500%;
+  line-height:1.25em;
+  color:#303030;
+  font-family:Arial, Verdana, sans-serif;
+
+  &:after { // this is the horizontal dividing line
+    content:"";
+    z-index:5;
+    position:absolute;
+    top:50%;
+    left:0;
+    width:100%;
+    height:0;
+    border-top:solid 1px rgba(106,106,106,0.7);
+    border-bottom:solid 1px rgba(23,23,23,0.5);
+    .box-shadow( 0 1px 1px rgba(255,255,255,0.7) );
+  }
+}
+
+.flipclock__digits {
+  position:relative;
+  padding:10px 0.2em;
+  min-width:1.15em;
+
+  &:before { /* this is the top half of the number and contains the current number. It begins visible, then flips down */
     display:none;
-    padding:10px;
-    text-align:center;
+    content:attr(data-now);
+    position:absolute;
+    z-index:2;
+    top:0;
+    left:0;
+    width:100%;
+    height:50%;
+    padding:10px 10px 0 10px;
+    .border-box();
+    .border-radius( @corner @corner 0 0 );
+    overflow:hidden;
+    //.vertical-gradient( #d3d3d3, 0%, #d0d0d0, 100% );
+    background:#d3d3d3; /* can't animate a gradient */
+    border-top:solid 1px #787878;
+    text-shadow:0px 2px 1px #ffffff;
+  }
 
-    &.shown {
-      display:inline-block;
-    }
+  &:after { /* this is the bottom half of the new number and begins obscured, flipping over to reveal its contents */
+    display:none;
+    content:attr(data-next);
+    position:absolute;
+    z-index:2;
+    top:50%;
+    left:0;
+    width:100%;
+    height:50%;
+    padding:0 10px 10px 10px;
+    .border-box();
+    .border-radius( 0 0 @corner @corner );
+    .box-shadow( 0 0 0 1px rgba(255,255,255,1) inset );
+    overflow:hidden;
+    line-height:0;
+    .vertical-gradient( #ededed, 0%, #dadada, 100% );
+    text-shadow:0px 2px 1px #ffffff;
+  }
+}
 
-    .digit {
-      position:relative;
-      margin-bottom:10px;
-      .vertical-multi-gradient( #d3d3d3, 0%, #d0d0d0, 50%, #ededed, 50%, #dadada, 100% );
-      .border-box();
-      .box-shadow( ~"0 0 0 1px rgba(255,255,255,1) inset, 0 0 0 1px #030303, 0 5px 5px rgba(0,0,0,0.7)" );
-      .border-radius( @corner );
-      border:solid 1px #787878;
-      border-top:solid 2px #787878;
-      border-bottom:solid 2px #787878;
-      text-shadow:0px 2px 1px #ffffff;
-      font-size:500%;
-      line-height:1.25em;
-      color:#303030;
-      font-family:Arial, Verdana, sans-serif;
+.flipclock__digits-next { /* this element appears as the top half of the number and contains the next number. It begins obscured */
+  display:none;
+  position:absolute;
+  z-index:1;
+  top:0;
+  left:0;
+  width:100%;
+  height:50%;
+  padding:10px 10px 0 10px;
+  overflow:hidden;
+  .border-box();
+  .border-radius( @corner @corner 0 0 );
+  .box-shadow( ~"0 1px 0 0px rgba(255,255,255,1) inset, 1px 0 0 rgba(255,255,255,1) inset, -1px 0 0 rgba(255,255,255,1) inset" );
+  .vertical-gradient( #d3d3d3, 0%, #d0d0d0, 100% );
+  text-shadow:0px 2px 1px #ffffff;
+}
 
-      &:after { // this is the horizontal dividing line
-        content:"";
-        z-index:5;
-        position:absolute;
-        top:50%;
-        left:0;
-        width:100%;
-        height:0;
-        border-top:solid 1px rgba(106,106,106,0.7);
-        border-bottom:solid 1px rgba(23,23,23,0.5);
-        .box-shadow( 0 1px 1px rgba(255,255,255,0.7) );
-      }
-    }
+.flipclock__digits-prev {
+  display:none;
+  position:absolute;
+  z-index:1;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:50%;
+  padding:0 10px 10px 10px;
+  .border-box();
+  .border-radius( 0 0 @corner @corner );
+  .box-shadow( 0 0 0 1px rgba(255,255,255,1) inset );
+  overflow:hidden;
+  line-height:0;
+  .vertical-gradient( #ededed, 0%, #dadada, 100% );
+  text-shadow:0px 2px 1px #ffffff;
+}
 
-    .digits {
-      position:relative;
-      padding:10px 0.2em;
-      min-width:1.15em;
+.flipclock__digits--animate {
+  &:before { /* this is the top half of the number and contains the current number. It begins visible, then flips down */
+    display:block;
+    .transform( perspective(300px) rotateX(0deg) );
+    .transform-point( 50% 100% );
+    -webkit-animation: anim1 @time linear forwards; /* Safari 4+ */
+    -moz-animation:    anim1 @time linear forwards; /* Fx 5+ */
+    -o-animation:      anim1 @time linear forwards; /* Opera 12+ */
+    animation:         anim1 @time linear forwards; /* IE 10+, Fx 29+ */
+  }
 
-      &:before { /* this is the top half of the number and contains the current number. It begins visible, then flips down */
-        display:none;
-        content:attr(data-now);
-        position:absolute;
-        z-index:2;
-        top:0;
-        left:0;
-        width:100%;
-        height:50%;
-        padding:10px 10px 0 10px;
-        .border-box();
-        .border-radius( @corner @corner 0 0 );
-        overflow:hidden;
-        //.vertical-gradient( #d3d3d3, 0%, #d0d0d0, 100% );
-        background:#d3d3d3; /* can't animate a gradient */
-        border-top:solid 1px #787878;
-        text-shadow:0px 2px 1px #ffffff;
-      }
+  &:after { /* this is the bottom half of the new number and begins obscured, flipping over to reveal its contents */
+    display:block;
+    .transform( perspective(300px) scaleX(-1) rotate(180deg) rotateX(90deg) );
+    .transform-point( 50% 0% );
+    -webkit-animation: anim2 @time linear forwards; /* Safari 4+ */
+    -moz-animation:    anim2 @time linear forwards; /* Fx 5+ */
+    -o-animation:      anim2 @time linear forwards; /* Opera 12+ */
+    animation:         anim2 @time linear forwards; /* IE 10+, Fx 29+ */
+  }
 
-      &:after { /* this is the bottom half of the new number and begins obscured, flipping over to reveal its contents */
-        display:none;
-        content:attr(data-next);
-        position:absolute;
-        z-index:2;
-        top:50%;
-        left:0;
-        width:100%;
-        height:50%;
-        padding:0 10px 10px 10px;
-        .border-box();
-        .border-radius( 0 0 @corner @corner );
-        .box-shadow( 0 0 0 1px rgba(255,255,255,1) inset );
-        overflow:hidden;
-        line-height:0;
-        .vertical-gradient( #ededed, 0%, #dadada, 100% );
-        text-shadow:0px 2px 1px #ffffff;
-      }
+  .flipclock__digits-next { /* this element appears as the top half of the number and contains the next number. It begins obscured */
+    display:block;
+  }
 
-      .next { /* this element appears as the top half of the number and contains the next number. It begins obscured */
-        display:none;
-        position:absolute;
-        z-index:1;
-        top:0;
-        left:0;
-        width:100%;
-        height:50%;
-        padding:10px 10px 0 10px;
-        overflow:hidden;
-        .border-box();
-        .border-radius( @corner @corner 0 0 );
-        .box-shadow( ~"0 1px 0 0px rgba(255,255,255,1) inset, 1px 0 0 rgba(255,255,255,1) inset, -1px 0 0 rgba(255,255,255,1) inset" );
-        .vertical-gradient( #d3d3d3, 0%, #d0d0d0, 100% );
-        text-shadow:0px 2px 1px #ffffff;
-      }
-
-      .prev {
-        display:none;
-        position:absolute;
-        z-index:1;
-        bottom:0;
-        left:0;
-        width:100%;
-        height:50%;
-        padding:0 10px 10px 10px;
-        .border-box();
-        .border-radius( 0 0 @corner @corner );
-        .box-shadow( 0 0 0 1px rgba(255,255,255,1) inset );
-        overflow:hidden;
-        line-height:0;
-        .vertical-gradient( #ededed, 0%, #dadada, 100% );
-        text-shadow:0px 2px 1px #ffffff;
-      }
-
-      &.animate {
-        &:before { /* this is the top half of the number and contains the current number. It begins visible, then flips down */
-          display:block;
-          .transform( perspective(300px) rotateX(0deg) );
-          .transform-point( 50% 100% );
-          -webkit-animation: anim1 @time linear forwards; /* Safari 4+ */
-          -moz-animation:    anim1 @time linear forwards; /* Fx 5+ */
-          -o-animation:      anim1 @time linear forwards; /* Opera 12+ */
-          animation:         anim1 @time linear forwards; /* IE 10+, Fx 29+ */
-        }
-        &:after { /* this is the bottom half of the new number and begins obscured, flipping over to reveal its contents */
-          display:block;
-          .transform( perspective(300px) scaleX(-1) rotate(180deg) rotateX(90deg) );
-          .transform-point( 50% 0% );
-          -webkit-animation: anim2 @time linear forwards; /* Safari 4+ */
-          -moz-animation:    anim2 @time linear forwards; /* Fx 5+ */
-          -o-animation:      anim2 @time linear forwards; /* Opera 12+ */
-          animation:         anim2 @time linear forwards; /* IE 10+, Fx 29+ */
-        }
-
-        .next { /* this element appears as the top half of the number and contains the next number. It begins obscured */
-          display:block;
-        }
-
-        .prev { /* this is an extra element of the bottom half of the current number, to make everything line up, since all the other elements have borders */
-          display:block;
-        }
-      }
-    }
-    .units {
-      font-family:Courier New, Courier New, monospace;
-      font-size:110%;
-      font-weight:bold;
-    }
+  .flipclock__digits-prev { /* this is an extra element of the bottom half of the current number, to make everything line up, since all the other elements have borders */
+    display:block;
   }
 }
 
@@ -205,9 +201,16 @@
   }
 }
 
-.trigger {
+.flipclock__units {
+  font-family:Courier New, Courier New, monospace;
+  font-size:110%;
+  font-weight:bold;
+}
+
+.flipclock__trigger {
   .transition( all 0.4s ); //transition speed is less than 1 second, which, oddly, seems to work
-  &.active {
-    .transparency( 0.99 );
-  }
+}
+
+.flipclock__trigger--active {
+  .transparency( 0.99 );
 }
