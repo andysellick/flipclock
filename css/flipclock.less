@@ -1,32 +1,32 @@
 @import "mixins.less";
 @time: 1s;
 @corner: 5px;
-@desktoppadding: 10px;
-@mobilepadding: 5px;
 
 .flipclock {
   display: flex;
-  flex-wrap: nowrap;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  @media only screen and (min-width: 767px) {
+    gap: 20px;
+  }
 }
 
 .flipclock__unit {
   display:none;
-  padding: @mobilepadding;
   text-align:center;
-
-  @media only screen and (min-width: 767px) {
-    padding: @desktoppadding;
-  }
 }
 
 .flipclock__unit--visible {
   display:inline-block;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .flipclock__digit {
   position:relative;
-  margin-bottom:10px;
   min-width: 1.6em;
   .vertical-multi-gradient( #d3d3d3, 0%, #d0d0d0, 50%, #ededed, 50%, #dadada, 100% );
   .border-box();
@@ -42,7 +42,7 @@
   font-family:Arial, Verdana, sans-serif;
 
   @media only screen and (min-width: 767px) {
-    font-size: 4em;
+    font-size: 3.6em;
   }
 
   &:after { // this is the horizontal dividing line
@@ -221,6 +221,7 @@
 }
 
 .flipclock__trigger {
+  position: absolute; // get it out of the flex so it doesn't interfere with the layout
   .transition( all 0.4s ); //transition speed is less than 1 second, which, oddly, seems to work
 }
 
